@@ -18,7 +18,13 @@ s3 = boto3.client('s3')
 def home():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
-    return render_template('home.html', posts=posts)
+    print(posts)
+    post0 = Post.query.filter_by(tag='0').all()
+    post1 = Post.query.filter_by(tag='1').all()
+    post2 = Post.query.filter_by(tag='2').all()
+    post3 = Post.query.filter_by(tag='3').all()
+    print(post0,post1,post2,post3)
+    return render_template('home.html', posts=posts, post0=post0, post1=post1, post2=post2, post3=post3)
 
 
 @app.route("/about")
@@ -120,7 +126,7 @@ def new_post():
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = save_post_picture(form.picture.data)
-        post = Post(title=form.title.data, content=form.content.data, image_file=picture_file, author=current_user)
+        post = Post(title=form.title.data, content=form.content.data, image_file=picture_file, tag=form.tag.data, author=current_user)
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success')

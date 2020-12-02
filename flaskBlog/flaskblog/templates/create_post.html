@@ -40,6 +40,10 @@
                     {% endfor %}
                 {% endif %}
             </div>
+            <div class="form-group">
+                {{ form.tag.label() }}
+                {{ form.tag(class="form-control-file") }}
+            </div>
         </fieldset>
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}
