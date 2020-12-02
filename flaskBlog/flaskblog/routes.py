@@ -8,6 +8,9 @@ from flaskblog.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
 from flaskblog.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
+import boto3
+s3 = boto3.client('s3')
+
 
 
 @app.route("/")
@@ -63,14 +66,29 @@ def logout():
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
-    picture_fn = random_hex + f_ext
+    picture_fn = random_hex + f_ext  # create the file name of image
     picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
 
     output_size = (125, 125)
     i = Image.open(form_picture)
     i.thumbnail(output_size)
     i.save(picture_path)
+    s3.upload_file(os.path.join(app.root_path, 'static/profile_pics', picture_fn), app.config['BUCKET_NAME'],
+                   'static/profile_pics/{}'.format(picture_fn), ExtraArgs={'ACL': 'public-read'})
+    return picture_fn
 
+def save_post_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext  # create the file name of image
+    picture_path = os.path.join(app.root_path, 'static/post_pics', picture_fn)
+
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+    s3.upload_file(os.path.join(app.root_path, 'static/post_pics', picture_fn), app.config['BUCKET_NAME'],
+                   'static/post_pics/{}'.format(picture_fn), ExtraArgs={'ACL': 'public-read'})
     return picture_fn
 
 
@@ -100,7 +118,9 @@ def account():
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        if form.picture.data:
+            picture_file = save_post_picture(form.picture.data)
+        post = Post(title=form.title.data, content=form.content.data, image_file=picture_file, author=current_user)
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success')
@@ -123,6 +143,9 @@ def update_post(post_id):
         abort(403)
     form = PostForm()
     if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            post.image_file = picture_file
         post.title = form.title.data
         post.content = form.content.data
         db.session.commit()

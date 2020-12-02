@@ -20,6 +20,7 @@ app.config['MAIL_USE_TLS'] = 1
 app.config['MAIL_USERNAME'] = 'jianijiahappy@gmail.com'
 app.config['MAIL_PASSWORD'] = 'Jjn123456'
 app.config['ADMINS'] = ['jianijiahappy@gmail.com']
+app.config['BUCKET_NAME'] = 'ece1779-a3-s3-images'
 mail = Mail(app)
 
 from flaskblog import routes
