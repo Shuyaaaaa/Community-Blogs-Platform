@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
+<div style="background-color:rgb(255, 255, 255); border:solid 1px; border-radius:2%; padding:15px; font-family:Trebuchet MS, Arial, Helvetica, sans-serif; font-weight:bold" >
     <h4>{{tag}} Posts</h4>
     {% for post in posts %}
         <article class="media content-section">
@@ -15,5 +16,5 @@
           </div>
         </article>
     {% endfor %}
-
+</div>
 {% endblock content %}

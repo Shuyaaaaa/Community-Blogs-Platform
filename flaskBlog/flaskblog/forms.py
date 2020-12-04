@@ -63,7 +63,7 @@ class PostForm(FlaskForm):
     picture = FileField('Upload a photo you like',
                         validators=[FileAllowed(['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG'])])
     tag = SelectField('Please select a tag',
-                      choices=[('0', 'Life'), ('1', 'Meme'), ('2', 'NBA'), ('3', 'Other')])
+                      choices=[('0', 'Life'), ('1', 'Meme'), ('2', 'Sport'), ('3', 'Other')])
     submit = SubmitField('Post')
 
 
