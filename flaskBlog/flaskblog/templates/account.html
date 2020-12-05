@@ -2,7 +2,7 @@
 {% block content %}
     <div class="content-section" style="border:solid 1px grey; border-radius:2%;">
       <div class="media">
-        <img class="rounded-circle account-img" src="{{ image_file }}">
+        <img class="rounded-circle account-img" src="{{'https://s3.us-east-1.amazonaws.com/ece1779-a3-s3-images/static/profile_pics/'+current_user.image_file}}">
         <div class="media-body">
           <h2 class="account-heading" style="font-family:Trebuchet MS, Arial, Helvetica, sans-serif; font-weight:bold">{{ current_user.username }}</h2>
           <p class="text-secondary" style="font-family:Trebuchet MS, Arial, Helvetica, sans-serif; ">{{ current_user.email }}</p>
