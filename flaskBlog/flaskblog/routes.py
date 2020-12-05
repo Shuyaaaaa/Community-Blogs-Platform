@@ -36,7 +36,7 @@ def postWithTag1():
 
 @app.route("/postwithtag2")
 def postWithTag2():
-    tag = 'NBA'
+    tag = 'Sport'
     posts = Post.query.filter_by(tag='2').all()
     return render_template('postWithTag.html', posts=posts, tag=tag)
 
@@ -96,12 +96,13 @@ def save_picture(form_picture):
     picture_fn = random_hex + f_ext  # create the file name of image
     picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
 
-    output_size = (125, 125)
+    output_size = (1024, 1024)
     i = Image.open(form_picture)
     i.thumbnail(output_size)
     i.save(picture_path)
     s3.upload_file(os.path.join(app.root_path, 'static/profile_pics', picture_fn), app.config['BUCKET_NAME'],
                    'static/profile_pics/{}'.format(picture_fn), ExtraArgs={'ACL': 'public-read'})
+    os.remove(os.path.join(app.root_path, 'static/profile_pics', picture_fn))
     return picture_fn
 
 def save_post_picture(form_picture):
@@ -110,12 +111,11 @@ def save_post_picture(form_picture):
     picture_fn = random_hex + f_ext  # create the file name of image
     picture_path = os.path.join(app.root_path, 'static/post_pics', picture_fn)
 
-    output_size = (125, 125)
     i = Image.open(form_picture)
-    i.thumbnail(output_size)
     i.save(picture_path)
     s3.upload_file(os.path.join(app.root_path, 'static/post_pics', picture_fn), app.config['BUCKET_NAME'],
                    'static/post_pics/{}'.format(picture_fn), ExtraArgs={'ACL': 'public-read'})
+    os.remove(os.path.join(app.root_path, 'static/post_pics', picture_fn))
     return picture_fn
 
 
