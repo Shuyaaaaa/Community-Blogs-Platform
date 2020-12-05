@@ -23,28 +23,28 @@ def home():
 @app.route("/postwithtag0")
 def postWithTag0():
     tag = 'Life'
-    posts = Post.query.filter_by(tag='0').all()
+    posts = Post.query.filter_by(tag='life').all()
     return render_template('postWithTag.html', posts=posts, tag=tag)
 
 
 @app.route("/postwithtag1")
 def postWithTag1():
     tag = 'Meme'
-    posts = Post.query.filter_by(tag='1').all()
+    posts = Post.query.filter_by(tag='meme').all()
     return render_template('postWithTag.html', posts=posts, tag=tag)
 
 
 @app.route("/postwithtag2")
 def postWithTag2():
     tag = 'Sport'
-    posts = Post.query.filter_by(tag='2').all()
+    posts = Post.query.filter_by(tag='sport').all()
     return render_template('postWithTag.html', posts=posts, tag=tag)
 
 
 @app.route("/postwithtag3")
 def postWithTag3():
     tag = 'Other'
-    posts = Post.query.filter_by(tag='3').all()
+    posts = Post.query.filter_by(tag='other').all()
     return render_template('postWithTag.html', posts=posts, tag=tag)
 
 
