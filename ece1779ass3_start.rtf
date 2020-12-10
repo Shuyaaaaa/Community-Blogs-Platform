@@ -7,8 +7,11 @@
 \pard\pardeftab720\partightenfactor0
 
 \f0\fs26 \cf2 \cb3 \expnd0\expndtw0\kerning0
+python3 -m venv venv\
+source vene/bin/activate\
+\
 pip install MySQL-connector-python\
-Flask\
+flask\
 flask_sqlalchemy\
 flask_bcrypt\
 flask_login\
@@ -17,14 +20,13 @@ Image\
 flask_wtf\
 email_validator\
 \
+export FLASK_APP=flaskblog/__init__.py\
+\
+flask run\
+\
 \
 from flaskblog import db\
 db.create_all()\
-from flaskblog.models import User\
-u=User(username="admin",email="admin@example.com",password="admin")\
-set_paasword()\
-db.session.add(u)\
-db.session.commit()\
 \
 \
-export FLASK_APP=flaskblog/__init__.py}
+}
